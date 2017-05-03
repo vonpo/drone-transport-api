@@ -9,7 +9,7 @@ module.exports.list = (event, context, callback) => {
 
         const response = {
             statusCode: HttpStaus.OK,
-            body: {drones: result},
+            body: JSON.stringify({drones: result}),
         };
 
         callback(null, response);

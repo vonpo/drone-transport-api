@@ -9,14 +9,14 @@ module.exports.update = (event, context, callback) => {
         .then(result => {
             const response = {
                 statusCode: HttpStatus.OK,
-                body: result,
+                body: JSON.stringify(result),
             };
             callback(null, response);
         })
         .catch(error => {
             const response = {
                 statusCode: HttpStatus.BAD_REQUEST,
-                body: error,
+                body: JSON.stringify(error),
             };
             callback(null, response)
         });

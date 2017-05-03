@@ -8,7 +8,7 @@ module.exports.create = (event, context, callback) => {
         .then(result => {
                 const response = {
                     statusCode: HttpStatus.OK,
-                    body: result,
+                    body: JSON.stringify(result),
                 };
                 callback(null, response);
             }
@@ -16,7 +16,7 @@ module.exports.create = (event, context, callback) => {
         .catch(error => {
             const response = {
                 statusCode: HttpStatus.BAD_REQUEST,
-                body: error,
+                body: JSON.stringify(error),
             };
             callback(null, response)
         });

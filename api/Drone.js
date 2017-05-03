@@ -65,9 +65,10 @@ module.exports.list = function list(queryString, callback) {
 
     dynamodb.scan(params, (error, result) => {
         if (error) {
-            callback(new Error('Couldn\'t fetch the drones.'));
+            callback(error);
             return;
         }
+
         var items = result.Items
             .map(mapProperties)
             .filter(checkDistance(queryString))

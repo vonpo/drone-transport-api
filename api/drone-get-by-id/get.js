@@ -13,14 +13,14 @@ module.exports.get = (event, context, callback) => {
             // create a response
             const response = {
                 statusCode: HttpStatus.OK,
-                body: droneData,
+                body: JSON.stringify(droneData),
             };
             callback(null, response);
         })
         .catch(error => {
             const response = {
                 statusCode: HttpStatus.BAD_REQUEST,
-                body: error,
+                body: JSON.stringify(error),
             };
             callback(null, response)
         });
