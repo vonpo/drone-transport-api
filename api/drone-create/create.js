@@ -4,15 +4,20 @@ const Drone = require('../Drone');
 module.exports.create = (event, context, callback) => {
     const droneData = JSON.parse(event.body);
 
-    Drone.create(droneData, (error, result) => {
-        if (error) {
-            return callback(error);
-        }
-
-        const response = {
-            statusCode: HttpStatus.OK,
-            body: result,
-        };
-        callback(null, response);
-    });
+    Drone
+        .create(droneData)
+        .then(result => {
+            const response = {
+                statusCode: HttpStatus.OK,
+                body: result,
+            };
+            callback(null, response);
+        })
+        .catch(error => {
+            const response = {
+                statusCode: HttpStatus.BAD_REQUEST,
+                body: error,
+            };
+            callback(null, response)
+        })
 };

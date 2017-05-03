@@ -80,10 +80,9 @@ module.exports.list = function list(queryString, callback) {
 /***
  * Get drone by id.
  * @param id {string}
- * @param callback {function}
  * @returns {Promise}
  */
-module.exports.get = function get(id, callback) {
+module.exports.get = function get(id) {
     const params = {
         TableName: process.env.DYNAMODB_TABLE,
         Key: {
@@ -91,23 +90,25 @@ module.exports.get = function get(id, callback) {
         }
     };
 
-    return dynamodb
-        .get(params)
-        .then(result => {
-            if (typeof callback !== 'undefined') {
-                callback(null, result && result.Item);
-            }
-            mapProperties(result && result.Item);
-            return Promise.resolve(result && result.Item);
-        })
+    return new Promise((resolve, reject) => {
+        dynamodb
+            .get(params, (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+
+                mapProperties(result && result.Item);
+                resolve(result && result.Item);
+            })
+    });
 };
 
 /***
  * Validate drone data and create new drone.
  * @param data {object}
- * @param callback {function}
+ * @returns {Promise}
  */
-module.exports.create = function (data, callback) {
+module.exports.create = function (data) {
     if (!validators.isValidDrone(data)) {
         var error = {reason: 'Invalid drone data.'};
 
@@ -127,5 +128,13 @@ module.exports.create = function (data, callback) {
         }
     };
 
-    return dynamodb.put(params, callback)
+    return new Promise((response, reject) => {
+        dynamodb.put(params, (err, data) => {
+            if (err) {
+                return reject(err);
+            }
+
+            return response(data);
+        });
+    });
 };

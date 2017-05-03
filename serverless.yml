@@ -18,7 +18,7 @@ functions:
     handler: api/drone-create/create.create
     events:
       - http:
-          path: drones/booking
+          path: drones
           method: post
           cors: true
   droneList:

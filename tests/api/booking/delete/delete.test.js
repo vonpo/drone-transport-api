@@ -28,7 +28,7 @@ describe('booking update.spec', function () {
             .delete(droneId)
             .then(Drone.get.bind(Drone, droneId))
             .then(drone => {
-                expect(typeof drone.booking).to.eql('undefined');
+                expect(drone.booking).to.be(null);
                 expect(drone.status).to.be('AVAILABLE');
                 done();
             })
