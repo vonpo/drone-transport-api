@@ -33,6 +33,8 @@ dynamodb.createTable(params, function(err, data) {
 });
 `
 
+Test
+`npm test`
 
 How to run api offline?
 `npm install`

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Demo api for drone transport",
   "scripts": {
+    "start": "serverless offline start",
     "test": "mocha tests/**/*test.js"
   },
   "author": "Marcin Krawczyk",
