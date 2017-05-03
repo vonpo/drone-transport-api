@@ -4,8 +4,6 @@
 
 `npm install serverless -g`
 
-If you would like to use offline dynamo-db you can use docker image https://github.com/dwmkerr/docker-dynamodb
-
 ## Test
 
 `npm test`
