@@ -39,21 +39,21 @@ functions:
     handler: api/booking-create/create.create
     events:
       - http:
-          path: drones/booking
+          path: drones/bookings
           method: post
           cors: true
   bookingDelete:
     handler: api/booking-delete/delete.delete
     events:
       - http:
-          path: drones/{id}/booking
+          path: drones/{id}/bookings
           method: delete
           cors: true
   bookingUpdate:
     handler: api/booking-update/update.update
     events:
       - http:
-          path: drones/{id}/booking
+          path: drones/{id}/bookings
           method: put
           cors: true
 
