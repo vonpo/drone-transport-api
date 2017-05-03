@@ -1,16 +1,16 @@
-#This is FAKE drone api.
+# This is FAKE drone api.
 
-##Prerequisite
+## Prerequisite
 
 `npm install serverless -g`
 
 If you would like to use offline dynamo-db you can use docker image https://github.com/dwmkerr/docker-dynamodb
 
-##Test
+## Test
 
 `npm test`
 
-##How to run api offline?
+## How to run api offline?
 
 ```bash
 npm install
@@ -20,7 +20,6 @@ serverless offlne start --migrate
 
 
 ## Usage
-
 
 ### Create a drone
 
