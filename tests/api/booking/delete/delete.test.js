@@ -5,8 +5,6 @@ const expect = require('expect.js');
 var Drone, DroneBooking;
 
 describe('booking update.spec', function () {
-    var droneId = 'c0be73af-5be5-401d-b678-abd896837660';
-
     before(function () {
         mockery.enable({
             warnOnReplace: false,
