@@ -16,5 +16,5 @@ module.exports.delete = (event, context, callback) => {
                 body: JSON.stringify(error),
             };
             callback(null, response)
-        });
+        })
 };
