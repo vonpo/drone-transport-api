@@ -7,7 +7,8 @@ If you would like to use offline dynamo-db you can use docker image
 https://github.com/dwmkerr/docker-dynamodb
 
 For adding table to do you can use:
-`var params = {
+`
+var params = {
     TableName: 'drones-api-dev',
     KeySchema: [
         {
@@ -29,10 +30,13 @@ For adding table to do you can use:
 dynamodb.createTable(params, function(err, data) {
     if (err) ppJson(err);
     else ppJson(data);
-});`
+});
+`
 
 
-How to run api ?
+How to run api offline?
 `npm install`
+`sls dynamodb install`
 `serverless offlne start`
+`serverless dynamodb migrate`
 

@@ -14,7 +14,7 @@ provider:
       DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
 
 functions:
-  bookingCreate:
+  droneCreate:
     handler: api/drone-create/create.create
     events:
       - http:
@@ -43,7 +43,7 @@ functions:
           method: post
           cors: true
   bookingDelete:
-    handler: api/booking-create/delete.delete
+    handler: api/booking-delete/delete.delete
     events:
       - http:
           path: drones/{id}/booking
