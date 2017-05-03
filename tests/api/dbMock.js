@@ -4,7 +4,7 @@
  */
 class DbMock {
     constructor() {
-        this.drones = require('../../api/list/drones.json').drones;
+        this.drones = require('../../api/drone-list/drones.json').drones;
     }
 
     scan(params, done) {
@@ -26,6 +26,16 @@ class DbMock {
 
                 drone.Item.booking = params.ExpressionAttributeValues[':booking'];
             })
+    }
+
+    put(data, done) {
+        this.drones.push(data.Item);
+
+        if (typeof done === 'function') {
+            done(null, data.Item.id);
+        }
+
+        return Promise.resolve(data.Item.id);
     }
 
     get(params, done) {

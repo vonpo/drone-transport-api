@@ -1,31 +1,12 @@
 const dynamodb = require('./dynamodb');
 const Drone = require('./Drone');
-
-function areValidCoords(coords) {
-    if (typeof coords === 'undefined' || !coords) {
-        return false;
-    } else if (isNaN(coords.lat) || isNaN(coords.lon)) {
-        return false;
-    }
-
-    return true;
-}
-
-function isValidRoute(route) {
-    if (typeof route === 'undefined' || !route) {
-        return false;
-    } else if (!areValidCoords(route.from) || !areValidCoords(route.to)) {
-        return false;
-    }
-
-    return true;
-}
+const validators = require('./validators');
 
 function addBookingToDrone(data) {
     return function (drone) {
         if (drone.status === 'BUSY') {
             return Promise.reject({reason: 'Drone is busy'})
-        } else if (!isValidRoute(data.route)) {
+        } else if (!validators.isValidRoute(data.route)) {
             return Promise.reject({reason: 'Invalid booking data'})
         }
 
@@ -40,7 +21,7 @@ function updateBooking(data) {
     return function (drone) {
         if (drone.status === 'AVAILABLE') {
             return Promise.reject({reason: 'Cannot update empty booking'})
-        } else if (!isValidRoute(data.route)) {
+        } else if (!validators.isValidRoute(data.route)) {
             return Promise.reject({reason: 'Invalid booking data'})
         }
 
@@ -104,11 +85,11 @@ module.exports.update = function (data) {
 /**
  * Delete drone booking.
  * Deletes booking on drones that are busy.
- * @param data {object} Drone data.
+ * @param droneId {string} Drone id.
  */
-module.exports.delete = function(data) {
+module.exports.delete = function(droneId) {
     return Drone
-        .get(data.droneId)
+        .get(droneId)
         .then(deleteBooking)
         .then(updateDrone);
 };

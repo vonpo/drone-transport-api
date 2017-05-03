@@ -1,6 +1,8 @@
-const dynamodb = require('./dynamodb');
 const MAX_DISTANCE = 500; // meters
 const geolib = require('geolib');
+const uuid = require('uuid');
+const validators = require('./validators');
+const dynamodb = require('./dynamodb');
 
 const filterByDistance = (distance, userCoordinates) => item => {
     var distance = geolib.getDistance(userCoordinates, {
@@ -39,11 +41,11 @@ function checkAvailability(queryString) {
 }
 
 function mapProperties(item) {
-    if(!item) {
+    if (!item) {
         return;
     }
 
-    item.status = item.booking ? 'BUSY': 'AVAILABLE';
+    item.status = item.booking ? 'BUSY' : 'AVAILABLE';
 
     return item;
 }
@@ -75,6 +77,12 @@ module.exports.list = function list(queryString, callback) {
     });
 };
 
+/***
+ * Get drone by id.
+ * @param id {string}
+ * @param callback {function}
+ * @returns {Promise}
+ */
 module.exports.get = function get(id, callback) {
     const params = {
         TableName: process.env.DYNAMODB_TABLE,
@@ -92,4 +100,32 @@ module.exports.get = function get(id, callback) {
             mapProperties(result && result.Item);
             return Promise.resolve(result && result.Item);
         })
+};
+
+/***
+ * Validate drone data and create new drone.
+ * @param data {object}
+ * @param callback {function}
+ */
+module.exports.create = function (data, callback) {
+    if (!validators.isValidDrone(data)) {
+        var error = {reason: 'Invalid drone data.'};
+
+        if (typeof  callback === 'function') {
+            callback(error);
+        }
+
+        return Promise.reject(error)
+    }
+
+    const params = {
+        TableName: process.env.DYNAMODB_TABLE,
+        Item: {
+            id: uuid.v1(),
+            name: data.name,
+            location: data.location
+        }
+    };
+
+    return dynamodb.put(params, callback)
 };

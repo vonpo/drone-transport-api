@@ -1,5 +1,5 @@
 const mockery = require('mockery');
-const DbMock = require('../dbMock');
+const DbMock = require('../../dbMock');
 const expect = require('expect.js');
 
 var Drone;
@@ -17,7 +17,7 @@ describe('get.spec', function () {
         // replace the module `request` with a stub object
         mockery.registerMock('./dynamodb', dbMock);
 
-        Drone = require('../../../api/Drone');
+        Drone = require('../../../../api/Drone');
     });
 
     it('should get NOT_FOUND when id is not found', function (done) {

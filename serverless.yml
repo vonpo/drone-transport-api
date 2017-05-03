@@ -14,26 +14,47 @@ provider:
       DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
 
 functions:
-  get:
-    handler: api/get-by-id/get.get
-    events:
-      - http:
-          path: drones/{id}
-          method: get
-          cors: true
-  create:
-    handler: api/create-booking/create.create
+  bookingCreate:
+    handler: api/drone-create/create.create
     events:
       - http:
           path: drones/booking
           method: post
           cors: true
-  list:
-    handler: api/list/list.list
+  droneList:
+    handler: api/drone-list/list.list
     events:
       - http:
           path: drones
           method: get
+          cors: true
+  droneGet:
+    handler: api/drone-get-by-id/get.get
+    events:
+      - http:
+          path: drones/{id}
+          method: get
+          cors: true
+  bookingCreate:
+    handler: api/booking-create/create.create
+    events:
+      - http:
+          path: drones/booking
+          method: post
+          cors: true
+  bookingDelete:
+    handler: api/booking-create/delete.delete
+    events:
+      - http:
+          path: drones/{id}/booking
+          method: delete
+          cors: true
+  bookingUpdate:
+    handler: api/booking-update/update.update
+    events:
+      - http:
+          path: drones/{id}/booking
+          method: put
           cors: true
 
 resources:

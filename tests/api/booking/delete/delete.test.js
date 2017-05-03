@@ -25,9 +25,7 @@ describe('booking update.spec', function () {
         var droneId = '06f4926c-8da5-4b1c-9a7d-fb0fbecc0e1b';
 
         DroneBooking
-            .delete({
-                droneId: droneId,
-            })
+            .delete(droneId)
             .then(Drone.get.bind(Drone, droneId))
             .then(drone => {
                 expect(typeof drone.booking).to.eql('undefined');

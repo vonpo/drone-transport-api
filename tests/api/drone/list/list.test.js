@@ -1,7 +1,7 @@
 const mockery = require('mockery');
-const DbMock = require('../dbMock');
+const DbMock = require('../../dbMock');
 const expect = require('expect.js');
-const allDrones = require('../../../api/list/drones.json');
+const allDrones = require('../../../../api/drone-list/drones.json');
 
 var DroneList;
 
@@ -18,7 +18,7 @@ describe('list.spec', function () {
         // replace the module `request` with a stub object
         mockery.registerMock('./dynamodb', dbMock);
 
-        DroneList = require('../../../api/Drone');
+        DroneList = require('../../../../api/Drone');
     });
 
     it('should get list of all drones', function (done) {
