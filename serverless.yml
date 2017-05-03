@@ -8,7 +8,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs6.10
-  provider: us-east-1
+  provider: eu-central-1
   stage: dev
   environment:
       DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
