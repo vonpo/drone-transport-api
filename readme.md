@@ -26,9 +26,13 @@ curl -X POST -H "Content-Type:application/json" http://localhost:3000/drones --d
 ```
 
 ### List drones
+#### When only fromLat and fromLon are provider only list of drones that are within 500m are provided.
+#### When fromLat, fromLon, toLat, toLon are provided api returns time of travel based on speed of drone.
+#### There is also STATUS param which returns AVAILABLE(not booked drones) or BUSY drones.
 ```bash
 curl http://localhost:3000/drones
 curl http://localhost:3000/drones?fromLat=10&fromLon=12&toLat=10&toLon=12.5
+curl http://localhost:3000/drones?status=BUSY
 ```
 
 ### Get the drone by id
