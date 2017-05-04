@@ -5,8 +5,6 @@ const expect = require('expect.js');
 var Drone, DroneBooking;
 
 describe('booking update.spec', function () {
-    var droneId = 'c0be73af-5be5-401d-b678-abd896837660';
-
     before(function () {
         mockery.enable({
             warnOnReplace: false,
@@ -55,6 +53,8 @@ describe('booking update.spec', function () {
             .then(drone => {
                 expect(drone.booking.route.from).to.eql({lat: 5, lon: 6});
                 expect(drone.booking.route.to).to.eql({lat: 7, lon: 8});
+                expect(typeof drone.booking.route.startTime).to.be('number');
+                expect(typeof drone.booking.route.endTime).to.be('number');
                 expect(drone.status).to.be('BUSY');
                 done();
             })

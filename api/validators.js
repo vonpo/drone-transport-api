@@ -8,8 +8,7 @@ function areValidCoords(coords) {
     return true;
 }
 
-module.exports.areValidCoords = areValidCoords;
-module.exports.isValidRoute = function (route) {
+function isValidRoute(route) {
     if (typeof route !== 'object') {
         return false;
     } else if (!areValidCoords(route.from) || !areValidCoords(route.to)) {
@@ -17,13 +16,17 @@ module.exports.isValidRoute = function (route) {
     }
 
     return true;
-};
+}
 
+module.exports.areValidCoords = areValidCoords;
+module.exports.isValidRoute = isValidRoute;
 module.exports.isValidDrone = function (droneData) {
     if (typeof droneData !== 'object') {
         return false;
     } else if (typeof droneData.name !== 'string' || droneData.name.length === 0) {
         return false;
+    } else if (isNaN(droneData.speed)) {
+        return false
     } else if (!areValidCoords(droneData.location)) {
         return false;
     }

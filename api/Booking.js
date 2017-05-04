@@ -1,6 +1,7 @@
 const dynamodb = require('./dynamodb');
 const Drone = require('./Drone');
 const validators = require('./validators');
+const utils = require('./utils');
 
 function addBookingToDrone(data) {
     return function (drone) {
@@ -12,7 +13,17 @@ function addBookingToDrone(data) {
             return Promise.reject({reason: 'Invalid booking data'})
         }
 
-        drone.booking = {route: data.route};
+        var routeTime = utils.getRouteTime(data.route.from, data.route.to, drone);
+
+        drone.booking = {
+            route: {
+                from: data.route.from,
+                to: data.route.to,
+                startTime: routeTime.startTime,
+                endTime: routeTime.endTime
+            }
+        };
+
         drone.status = 'BUSY';
 
         return Promise.resolve(drone);
@@ -29,7 +40,14 @@ function updateBooking(data) {
             return Promise.reject({reason: 'Invalid booking data'})
         }
 
-        drone.booking.route = data.route;
+        var routeTime = utils.getRouteTime(data.route.from, data.route.to, drone);
+
+        drone.booking.route = {
+            from: data.route.from,
+            to: data.route.to,
+            startTime: routeTime.startTime,
+            endTime: routeTime.endTime
+        };
 
         return Promise.resolve(drone);
     }

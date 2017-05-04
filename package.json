@@ -21,6 +21,7 @@
     "aws-sdk": "^2.48.0",
     "geolib": "^2.0.22",
     "http-status-codes": "^1.1.6",
+    "moment": "^2.18.1",
     "serverless": "^1.12.1",
     "uuid": "^3.0.1"
   }

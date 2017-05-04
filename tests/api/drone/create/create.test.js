@@ -23,6 +23,7 @@ describe('booking crete.spec', function () {
     it('should create new drone', function (done) {
         var droneData = {
             name : 'Test Drone1',
+            speed: 1,
             location: {
                 lat: 60.165679,
                 lon: 24.952612
@@ -35,6 +36,7 @@ describe('booking crete.spec', function () {
             .then(drone => {
                 expect(drone.name).to.be(droneData.name);
                 expect(drone.location).to.eql(droneData.location);
+                expect(drone.speed).to.eql(1);
                 done();
             })
     });

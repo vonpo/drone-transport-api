@@ -3,6 +3,7 @@ const geolib = require('geolib');
 const uuid = require('uuid');
 const validators = require('./validators');
 const dynamodb = require('./dynamodb');
+const utils = require('./utils');
 
 const filterByDistance = (distance, userCoordinates) => item => {
     var distance = geolib.getDistance(userCoordinates, {
@@ -14,17 +15,42 @@ const filterByDistance = (distance, userCoordinates) => item => {
 };
 
 function checkDistance(queryString) {
-    var shouldCheckDistance = queryString && !isNaN(queryString.lat) && !isNaN(queryString.lon);
+    var hasFromCoords = validators.areValidCoords(queryString.from);
+    var hasToCoords = validators.areValidCoords(queryString.to);
 
-    if (shouldCheckDistance) {
-        let userCoordinates = {
-            latitude: queryString.lat,
-            longitude: queryString.lon
-        };
-
-        return filterByDistance(MAX_DISTANCE, userCoordinates);
+    if (hasFromCoords && !hasToCoords) {
+        return filterByDistance(MAX_DISTANCE, queryString.from);
     } else {
-        return () => true;
+        return () => true; // return all items
+    }
+}
+
+function processDistance(queryString) {
+    var hasFromCoords = validators.areValidCoords(queryString.from);
+    var hasToCoords = validators.areValidCoords(queryString.to);
+
+    if (hasFromCoords && hasToCoords) {
+        return (acc, next) => {
+            if (next.booking) { // ignore booked drones
+                return acc;
+            }
+
+            var routeTime = utils.getRouteTime(queryString.from, queryString.to, next);
+            next.route = {
+                from: queryString.from,
+                to: queryString.to,
+                startTime: routeTime.startTime,
+                endTime: routeTime.endTime,
+            };
+
+            acc.push(next);
+            return acc;
+        };
+    } else { // return all items
+        return (acc, next) => {
+            acc.push(next);
+            return acc;
+        };
     }
 }
 
@@ -59,6 +85,16 @@ function mapProperties(item) {
  * @param callback {function} Callback function.
  */
 module.exports.list = function list(queryString, callback) {
+    queryString = queryString || {};
+    queryString.from = {
+        lat: queryString.fromLat,
+        lon: queryString.fromLon
+    };
+    queryString.to = {
+        lat: queryString.toLat,
+        lon: queryString.toLon
+    };
+
     const params = {
         TableName: process.env.DYNAMODB_TABLE,
     };
@@ -72,7 +108,11 @@ module.exports.list = function list(queryString, callback) {
         var items = result.Items
             .map(mapProperties)
             .filter(checkDistance(queryString))
-            .filter(checkAvailability(queryString));
+            .filter(checkAvailability(queryString))
+            .map(function(x) {
+                return x;
+            })
+            .reduce(processDistance(queryString), []);
 
         callback(null, items);
     });
@@ -125,7 +165,8 @@ module.exports.create = function (data) {
         Item: {
             id: uuid.v1(),
             name: data.name,
-            location: data.location
+            location: data.location,
+            speed: data.speed
         }
     };
 

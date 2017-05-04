@@ -40,12 +40,30 @@ describe('list.spec', function () {
 
     it('should get drones that are close to given distance', function (done) {
         DroneList.list({
-            lat: 60.160775,
-            lon: 24.955536
+            fromLat: 60.160775,
+            fromLon: 24.955536
         }, (err, drones) => {
             expect(err).to.be(null);
             expect(Array.isArray(drones)).to.be(true);
             expect(drones.length).to.be(2);
+            done();
+        })
+    });
+
+    it('should get drones with rout times', function (done) {
+        DroneList.list({
+            fromLat: 60.160775,
+            fromLon: 24.955536,
+            toLat: 60.160775,
+            toLon: 24.155536
+        }, (err, drones) => {
+            expect(err).to.be(null);
+            expect(Array.isArray(drones)).to.be(true);
+
+            drones.forEach(drone => {
+                expect(drone.route.startTime < drone.route.endTime).to.be(true);
+            });
+
             done();
         })
     });
@@ -62,8 +80,8 @@ describe('list.spec', function () {
 
     it('should get available drones and close to given distance', function (done) {
         DroneList.list({
-            lat: 60.160775,
-            lon: 24.955536,
+            fromLat: 60.160775,
+            fromLon: 24.955536,
             status: 'AVAILABLE'
         }, (err, drones) => {
             expect(err).to.be(null);

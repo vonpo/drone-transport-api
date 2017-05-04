@@ -36,6 +36,8 @@ describe('booking crete.spec', function () {
             .then(drone => {
                 expect(drone.booking.route.from).to.eql({lat: 1, lon: 2});
                 expect(drone.booking.route.to).to.eql({lat: 1, lon: 3});
+                expect(typeof drone.booking.route.startTime).to.be('number');
+                expect(typeof drone.booking.route.endTime).to.be('number');
                 expect(drone.status).to.be('BUSY');
                 done();
             })

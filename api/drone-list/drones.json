@@ -3,6 +3,7 @@
     {
       "id": "6ffcf557-2d77-47e5-afcb-19fdb80f61e7",
       "name": "Thook",
+      "speed": 2,
       "location": {
         "lat": 60.161679,
         "lon": 24.957612
@@ -11,6 +12,7 @@
     {
       "id": "481ccf05-eb26-4519-b15e-73142f57728c",
       "name": "Goozbumble",
+      "speed": 1,
       "booking": {
         "route": {
           "from": {"lat": 1, "lon": 2},
@@ -25,6 +27,7 @@
     {
       "id": "728c0841-eed1-4958-b438-11b8ed498299",
       "name": "Klultpumph",
+      "speed": 2.5,
       "location": {
         "lat": 60.168070,
         "lon": 24.930714
@@ -33,6 +36,7 @@
     {
       "id": "74127a79-b8df-4d96-a1e2-e21c4ef26272",
       "name": "Brunumph",
+      "speed": 4,
       "location": {
         "lat": 60.169991,
         "lon": 24.921917
@@ -41,6 +45,7 @@
     {
       "id": "c0be73af-5be5-401d-b678-abd896837660",
       "name": "Humpbunk",
+      "speed": 6,
       "booking": {
         "route": {
           "from": {"lat": 1, "lon": 2},
@@ -55,6 +60,7 @@
     {
       "id": "06f4926c-8da5-4b1c-9a7d-fb0fbecc0e1b",
       "name": "Fomphdork",
+      "speed": 7,
       "booking": {
         "route": {
           "from": {"lat": 1, "lon": 2},

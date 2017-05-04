@@ -22,12 +22,13 @@ serverless offlne start --migrate
 ### Create a drone
 
 ```bash
-curl -X POST -H "Content-Type:application/json" http://localhost:3000/drones --data '{ "name": "Thook", "location": { "lon": 60.161679 ,"lat": 24.957612}}'
+curl -X POST -H "Content-Type:application/json" http://localhost:3000/drones --data '{ "name": "Thook", "speed": 1, "location": { "lon": 60.161679 ,"lat": 24.957612}}'
 ```
 
 ### List drones
 ```bash
 curl http://localhost:3000/drones
+curl http://localhost:3000/drones?fromLat=10&fromLon=12&toLat=10&toLon=12.5
 ```
 
 ### Get the drone by id
