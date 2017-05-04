@@ -2,7 +2,7 @@
 
 ## Prerequisite
 
-`npm install serverless mo -g`
+`npm install serverless mocha -g`
 
 ## Test
 
